@@ -1,0 +1,19 @@
+@import "variables";
+@import "reset";
+@import "extendings";
+@import "mixins";
+
+
+.index {
+  &-page {
+    padding: 30px 20px 0 20px;
+  }
+
+}
+
+.rating-stars i{
+  color: #ffc107 !important;
+  caret-color: #ffc107 !important;
+}
+
+

@@ -3,17 +3,13 @@
 @import "extendings";
 @import "mixins";
 
+// pages
+@import "pages/index";
+@import "pages/show";
 
-.index {
-  &-page {
-    padding: 30px 20px 0 20px;
-  }
-
-}
-
-.rating-stars i{
-  color: #ffc107 !important;
-  caret-color: #ffc107 !important;
-}
-
-
+// vuetify style overrides
+@import "vuetify_overrides/pagination";
+@import "vuetify_overrides/rating";
+@import "vuetify_overrides/card";
+@import "vuetify_overrides/toolbar";
+@import "vuetify_overrides/button";

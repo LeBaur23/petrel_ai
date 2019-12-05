@@ -28,6 +28,8 @@ module.exports = {
     '@nuxtjs/axios',
   ],
 
+  plugins: ['~plugins/components_plugin'],
+
   buildModules: [
     // Simple usage
     '@nuxtjs/vuetify',

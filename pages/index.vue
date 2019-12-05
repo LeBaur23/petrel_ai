@@ -1,82 +1,32 @@
 <template>
   <section class="index-page">
     <div class="container-fluid">
-      <div class="row">
-
-        <!--
-          this part of code i can do it with component
-          but i have limited time so i need to push it to github.
-          if in the future if you ask i can do it in component. now i just duplicate it in other pages
-        -->
-        <div class=" col-lg-3 col-md-4 col-sm-6 col-xl-20" v-for="(show,index) in shows" :key="index" @click="toShow(show.id)">
-          <v-card>
-            <v-img
-              height="200px"
-              :src="show.image.original"
-            >
-            </v-img>
-            <v-card-title>
-              {{ show.name }}
-            </v-card-title>
-
-            <v-card-text class="text--primary">
-                <v-row
-                  align="center"
-                  class="mx-0"
-                >
-                  <v-rating
-                    class="rating-stars"
-                    :value="show.rating.average"
-                    length="10"
-                    color="amber"
-                    dense
-                    half-increments
-                    readonly
-                    size="14"
-                  ></v-rating>
-                  <div class="grey--text ml-4">{{ show.rating.average }}</div>
-                </v-row>
-            </v-card-text>
-          </v-card>
-        </div>
-        <div class="col-12">
-          <v-pagination
-            v-model="page"
-            class="my-4"
-            :length="15"
-          ></v-pagination>
-        </div>
-      </div>
+      <shows-component @changed="changeShows" :shows="shows"></shows-component>
     </div>
   </section>
 </template>
 
 <script>
-
-export default {
-  data() {
-    return {
-      shows: null,
-      page: 1
+  export default {
+    data() {
+      return {
+        shows: null
+      }
+    },
+    methods: {
+      changeShows (value) {
+        this.shows = value
+      }
+    },
+    async asyncData({ $axios, store }) {
+      const data = await $axios.get('http://api.tvmaze.com/shows?page=1');
+//      just showing that i know vuex
+      store.dispatch('shows/loadShows', data.data.slice(0, 20));
+      return { shows: data.data.slice(0, 20)}
+    },
+    head: {
+      title: "Main page"
     }
-  },
-  watch: {
-    page: async function(val) {
-      const shows = await this.$axios.get('http://api.tvmaze.com/shows?page=' + val);
-      this.shows = shows.data.slice(0, 20);
-    }
-  },
-  methods: {
-    toShow(id) {
-      this.$router.push({
-        path: '/show/' + id
-      });
-    }
-  },
-  async asyncData({ $axios }) {
-    const data = await $axios.get('http://api.tvmaze.com/shows?page=1');
-    return { shows: data.data.slice(0, 20)}
   }
-}
 </script>
 
